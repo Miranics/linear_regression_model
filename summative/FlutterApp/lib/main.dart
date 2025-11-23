@@ -14,9 +14,38 @@ class CalmPulseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CalmPulse Predictor',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.teal,
+          brightness: Brightness.light,
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF5F7FB),
         useMaterial3: true,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFFCBD5F5)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFFCBD5F5)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFF2563EB), width: 1.5),
+          ),
+          labelStyle: const TextStyle(color: Color(0xFF475467)),
+        ),
       ),
       home: const PredictionPage(),
     );
@@ -151,62 +180,117 @@ class _PredictionPageState extends State<PredictionPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('CalmPulse Rating Predictor'),
+        foregroundColor: const Color(0xFF0F172A),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildNumberField('Price (USD)', _price, min: 0, max: 100, isDouble: true),
-              _buildNumberField('Rating Count', _ratingCount, min: 1, max: 4000000),
-              _buildNumberField('Size (MB)', _sizeMb, min: 1, max: 2000, isDouble: true),
-              _buildDropdown('Primary Genre', _genre, genres, (value) {
-                setState(() => _genre = value!);
-              }),
-              _buildDropdown('Content Rating', _contentRating, contentRatings, (value) {
-                setState(() => _contentRating = value!);
-              }),
-              _buildNumberField('Language Count', _languageCount, min: 1, max: 60),
-              _buildSwitch('Has In-App Purchases', _hasIap, (value) {
-                setState(() => _hasIap = value);
-              }),
-              _buildSwitch('Has Support URL', _hasSupport, (value) {
-                setState(() => _hasSupport = value);
-              }),
-              TextFormField(
-                controller: _minIos,
-                decoration: const InputDecoration(labelText: 'Minimum iOS (e.g., 13.0)'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Enter minimum iOS version';
-                  }
-                  if (!RegExp(r'^\d{1,2}(\.\d)?$').hasMatch(value)) {
-                    return 'Format must be like 13.0';
-                  }
-                  return null;
-                },
+              Text(
+                'Forecast wellbeing ratings',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF0F172A),
+                    ),
               ),
-              _buildSwitch('Supports Game Center', _isGameCenter, (value) {
-                setState(() => _isGameCenter = value);
-              }),
-              _buildNumberField('Age (days)', _ageDays, min: 0, max: 7000),
-              _buildNumberField('Update recency (days)', _updateRecency, min: 0, max: 5000),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _loading ? null : _predict,
-                  child: _loading
-                      ? const CircularProgressIndicator.adaptive()
-                      : const Text('Predict'),
+              const SizedBox(height: 6),
+              const Text(
+                'Feed CalmPulse signals from store telemetry to spot UX wins before launch.',
+                style: TextStyle(color: Color(0xFF475467)),
+              ),
+              const SizedBox(height: 20),
+              Card(
+                elevation: 0,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildNumberField('Price (USD)', _price, min: 0, max: 100, isDouble: true),
+                        const SizedBox(height: 12),
+                        _buildNumberField('Rating Count', _ratingCount, min: 1, max: 4000000),
+                        const SizedBox(height: 12),
+                        _buildNumberField('Size (MB)', _sizeMb, min: 1, max: 2000, isDouble: true),
+                        const SizedBox(height: 12),
+                        _buildDropdown('Primary Genre', _genre, genres, (value) {
+                          setState(() => _genre = value!);
+                        }),
+                        const SizedBox(height: 12),
+                        _buildDropdown('Content Rating', _contentRating, contentRatings, (value) {
+                          setState(() => _contentRating = value!);
+                        }),
+                        const SizedBox(height: 12),
+                        _buildNumberField('Language Count', _languageCount, min: 1, max: 60),
+                        const SizedBox(height: 6),
+                        _buildSwitch('Has In-App Purchases', _hasIap, (value) {
+                          setState(() => _hasIap = value);
+                        }),
+                        _buildSwitch('Has Support URL', _hasSupport, (value) {
+                          setState(() => _hasSupport = value);
+                        }),
+                        TextFormField(
+                          controller: _minIos,
+                          decoration: const InputDecoration(labelText: 'Minimum iOS (e.g., 13.0)'),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Enter minimum iOS version';
+                            }
+                            if (!RegExp(r'^\d{1,2}(\.\d)?$').hasMatch(value)) {
+                              return 'Format must be like 13.0';
+                            }
+                            return null;
+                          },
+                        ),
+                        _buildSwitch('Supports Game Center', _isGameCenter, (value) {
+                          setState(() => _isGameCenter = value);
+                        }),
+                        _buildNumberField('Age (days)', _ageDays, min: 0, max: 7000),
+                        const SizedBox(height: 12),
+                        _buildNumberField('Update recency (days)', _updateRecency, min: 0, max: 5000),
+                        const SizedBox(height: 18),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _loading ? null : _predict,
+                            child: _loading
+                                ? const CircularProgressIndicator.adaptive()
+                                : const Text('Predict rating'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(height: 12),
-              Text(
-                _result,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              const SizedBox(height: 18),
+              AnimatedOpacity(
+                opacity: _result.isEmpty ? 0 : 1,
+                duration: const Duration(milliseconds: 250),
+                child: _result.isEmpty
+                    ? const SizedBox.shrink()
+                    : Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0F172A),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Text(
+                          _result,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
               ),
             ],
           ),
@@ -267,7 +351,10 @@ class _PredictionPageState extends State<PredictionPage> {
 
   Widget _buildSwitch(String label, bool value, ValueChanged<bool> onChanged) {
     return SwitchListTile(
-      title: Text(label),
+      contentPadding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      tileColor: const Color(0xFFF2F4F7),
+      title: Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
       value: value,
       onChanged: onChanged,
     );
