@@ -186,44 +186,51 @@ class _PredictionPageState extends State<PredictionPage> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Forecast wellbeing ratings',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF0F172A),
-                    ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'CalmPulse Ratings',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF0F172A),
+                        ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Forecast wellbeing app scores before launch to prioritize the sharpest UX bets.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Color(0xFF475467)),
+                  ),
+                ],
               ),
-              const SizedBox(height: 6),
-              const Text(
-                'Feed CalmPulse signals from store telemetry to spot UX wins before launch.',
-                style: TextStyle(color: Color(0xFF475467)),
-              ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               Card(
                 elevation: 0,
                 color: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                   child: Form(
                     key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildNumberField('Price (USD)', _price, min: 0, max: 100, isDouble: true),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 14),
                         _buildNumberField('Rating Count', _ratingCount, min: 1, max: 4000000),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 14),
                         _buildNumberField('Size (MB)', _sizeMb, min: 1, max: 2000, isDouble: true),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 14),
                         _buildDropdown('Primary Genre', _genre, genres, (value) {
                           setState(() => _genre = value!);
                         }),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 14),
                         _buildDropdown('Content Rating', _contentRating, contentRatings, (value) {
                           setState(() => _contentRating = value!);
                         }),
@@ -253,9 +260,9 @@ class _PredictionPageState extends State<PredictionPage> {
                           setState(() => _isGameCenter = value);
                         }),
                         _buildNumberField('Age (days)', _ageDays, min: 0, max: 7000),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 14),
                         _buildNumberField('Update recency (days)', _updateRecency, min: 0, max: 5000),
-                        const SizedBox(height: 18),
+                        const SizedBox(height: 22),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
