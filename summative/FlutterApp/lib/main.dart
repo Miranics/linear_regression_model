@@ -185,128 +185,133 @@ class _PredictionPageState extends State<PredictionPage> {
         elevation: 0,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 520),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'CalmPulse Ratings',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF0F172A),
-                        ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Forecast wellbeing app scores before launch to prioritize the sharpest UX bets.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Color(0xFF475467)),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              Card(
-                elevation: 0,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildNumberField('Price (USD)', _price, min: 0, max: 100, isDouble: true),
-                        const SizedBox(height: 14),
-                        _buildNumberField('Rating Count', _ratingCount, min: 1, max: 4000000),
-                        const SizedBox(height: 14),
-                        _buildNumberField('Size (MB)', _sizeMb, min: 1, max: 2000, isDouble: true),
-                        const SizedBox(height: 14),
-                        _buildDropdown('Primary Genre', _genre, genres, (value) {
-                          setState(() => _genre = value!);
-                        }),
-                        const SizedBox(height: 14),
-                        _buildDropdown('Content Rating', _contentRating, contentRatings, (value) {
-                          setState(() => _contentRating = value!);
-                        }),
-                        const SizedBox(height: 12),
-                        _buildNumberField('Language Count', _languageCount, min: 1, max: 60),
-                        const SizedBox(height: 6),
-                        _buildSwitch('Has In-App Purchases', _hasIap, (value) {
-                          setState(() => _hasIap = value);
-                        }),
-                        _buildSwitch('Has Support URL', _hasSupport, (value) {
-                          setState(() => _hasSupport = value);
-                        }),
-                        TextFormField(
-                          controller: _minIos,
-                          decoration: const InputDecoration(labelText: 'Minimum iOS (e.g., 13.0)'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Enter minimum iOS version';
-                            }
-                            if (!RegExp(r'^\d{1,2}(\.\d)?$').hasMatch(value)) {
-                              return 'Format must be like 13.0';
-                            }
-                            return null;
-                          },
-                        ),
-                        _buildSwitch('Supports Game Center', _isGameCenter, (value) {
-                          setState(() => _isGameCenter = value);
-                        }),
-                        _buildNumberField('Age (days)', _ageDays, min: 0, max: 7000),
-                        const SizedBox(height: 14),
-                        _buildNumberField('Update recency (days)', _updateRecency, min: 0, max: 5000),
-                        const SizedBox(height: 22),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _loading ? null : _predict,
-                            child: _loading
-                                ? const CircularProgressIndicator.adaptive()
-                                : const Text('Predict rating'),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Align(
+              alignment: Alignment.topCenter,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 520),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'CalmPulse Ratings',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: const Color(0xFF0F172A),
+                                ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 18),
-              AnimatedOpacity(
-                opacity: _result.isEmpty ? 0 : 1,
-                duration: const Duration(milliseconds: 250),
-                child: _result.isEmpty
-                    ? const SizedBox.shrink()
-                    : Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF0F172A),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Text(
-                          _result,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Forecast wellbeing app scores before launch to prioritize the sharpest UX bets.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Color(0xFF475467)),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      Card(
+                        elevation: 0,
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildNumberField('Price (USD)', _price, min: 0, max: 100, isDouble: true),
+                                const SizedBox(height: 14),
+                                _buildNumberField('Rating Count', _ratingCount, min: 1, max: 4000000),
+                                const SizedBox(height: 14),
+                                _buildNumberField('Size (MB)', _sizeMb, min: 1, max: 2000, isDouble: true),
+                                const SizedBox(height: 14),
+                                _buildDropdown('Primary Genre', _genre, genres, (value) {
+                                  setState(() => _genre = value!);
+                                }),
+                                const SizedBox(height: 14),
+                                _buildDropdown('Content Rating', _contentRating, contentRatings, (value) {
+                                  setState(() => _contentRating = value!);
+                                }),
+                                const SizedBox(height: 12),
+                                _buildNumberField('Language Count', _languageCount, min: 1, max: 60),
+                                const SizedBox(height: 6),
+                                _buildSwitch('Has In-App Purchases', _hasIap, (value) {
+                                  setState(() => _hasIap = value);
+                                }),
+                                _buildSwitch('Has Support URL', _hasSupport, (value) {
+                                  setState(() => _hasSupport = value);
+                                }),
+                                TextFormField(
+                                  controller: _minIos,
+                                  decoration:
+                                      const InputDecoration(labelText: 'Minimum iOS (e.g., 13.0)'),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Enter minimum iOS version';
+                                    }
+                                    if (!RegExp(r'^\d{1,2}(\.\d)?$').hasMatch(value)) {
+                                      return 'Format must be like 13.0';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                _buildSwitch('Supports Game Center', _isGameCenter, (value) {
+                                  setState(() => _isGameCenter = value);
+                                }),
+                                _buildNumberField('Age (days)', _ageDays, min: 0, max: 7000),
+                                const SizedBox(height: 14),
+                                _buildNumberField('Update recency (days)', _updateRecency, min: 0, max: 5000),
+                                const SizedBox(height: 22),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: _loading ? null : _predict,
+                                    child: _loading
+                                        ? const CircularProgressIndicator.adaptive()
+                                        : const Text('Predict rating'),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
+                      const SizedBox(height: 18),
+                      AnimatedOpacity(
+                        opacity: _result.isEmpty ? 0 : 1,
+                        duration: const Duration(milliseconds: 250),
+                        child: _result.isEmpty
+                            ? const SizedBox.shrink()
+                            : Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF0F172A),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Text(
+                                  _result,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-                ],
-              ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );
