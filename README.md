@@ -72,5 +72,5 @@ flutter run \
 
 ## Task 4 – Demo video
 
-- Loom recording (camera on, ≤5 minutes): https://www.loom.com/share/332564dfd5304913b3b307d9fb800e03
+- Loom recording : https://www.loom.com/share/332564dfd5304913b3b307d9fb800e03
 
