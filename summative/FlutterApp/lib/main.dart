@@ -99,12 +99,15 @@ class _PredictionPageState extends State<PredictionPage> {
 
     const baseUrl = String.fromEnvironment(
       'API_BASE_URL',
-      defaultValue: 'https://your-render-app.onrender.com',
+      defaultValue: 'https://linear-regression-model-mxox.onrender.com',
     );
+    final sanitizedBase = baseUrl.endsWith('/')
+        ? baseUrl.substring(0, baseUrl.length - 1)
+        : baseUrl;
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/predict'),
+        Uri.parse('$sanitizedBase/predict'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(payload),
       );

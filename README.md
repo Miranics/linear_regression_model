@@ -56,7 +56,7 @@ uvicorn prediction:app --host 0.0.0.0 --port 8000 --app-dir summative/API
 
 Directory: `summative/FlutterApp/`
 
-- Uses the Render URL (`https://linear-regression-model-mxox.onrender.com/predict`) via HTTP POST.
+- Default API base: `https://linear-regression-model-mxox.onrender.com` (override with `--dart-define API_BASE_URL=https://...`).
 - Text fields mirror each input required by the Pydantic schema.
 - Displays the predicted rating or validation errors from the API.
 
@@ -65,7 +65,8 @@ Run with:
 ```bash
 cd summative/FlutterApp
 flutter pub get
-flutter run  # or flutter build apk/ipa
+flutter run \
+  --dart-define API_BASE_URL=https://linear-regression-model-mxox.onrender.com
 ```
 
 ## Task 4 – Demo video checklist
