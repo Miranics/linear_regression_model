@@ -187,9 +187,13 @@ class _PredictionPageState extends State<PredictionPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 520),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -299,7 +303,9 @@ class _PredictionPageState extends State<PredictionPage> {
                         ),
                       ),
               ),
-            ],
+                ],
+              ),
+            ),
           ),
         ),
       ),
