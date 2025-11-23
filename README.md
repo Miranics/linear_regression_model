@@ -70,15 +70,3 @@ flutter run \
   --dart-define API_BASE_URL=https://linear-regression-model-mxox.onrender.com
 ```
 
-## Task 4 – Demo video checklist
-
-- Show notebook insights + model comparison (max 5 minutes total).
-- Demonstrate Swagger `/predict` success & validation errors.
-- Show Flutter app sending inputs and rendering the response.
-- Camera on, concise mission/problem explanation.
-
-## Submission reminders
-
-- README must include mission sentence (done) and public API URL.
-- Include YouTube demo link once recorded.
-- Keep repo synced: `git add . && git commit -m "Update docs" && git push`.
