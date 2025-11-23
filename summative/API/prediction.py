@@ -8,7 +8,7 @@ from typing import Literal
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field, field_serializer
+from pydantic import BaseModel, Field
 
 API_DIR = Path(__file__).resolve().parent
 LINEAR_REGRESSION_DIR = API_DIR.parent / "linear_regression"
@@ -48,8 +48,27 @@ class PredictionRequest(BaseModel):
     price: float = Field(ge=0, le=100, description="App Store price in USD")
     rating_count: int = Field(ge=1, le=4_000_000, description="Total user ratings")
     size_mb: float = Field(ge=1, le=2_000, description="Binary size in megabytes")
-    primary_genre: Literal[tuple(GENRE_CHOICES)]
-    content_rating: Literal[tuple(CONTENT_RATINGS)]
+    primary_genre: Literal[
+        "Book",
+        "Business",
+        "Education",
+        "Entertainment",
+        "Finance",
+        "Food & Drink",
+        "Games",
+        "Graphics & Design",
+        "Health & Fitness",
+        "Lifestyle",
+        "Medical",
+        "Music",
+        "News",
+        "Photo & Video",
+        "Productivity",
+        "Reference",
+        "Shopping",
+        "Utilities",
+    ]
+    content_rating: Literal["4+", "9+", "12+", "17+"]
     language_count: int = Field(ge=1, le=60, description="Number of supported languages")
     has_iap: bool
     has_support_url: bool
@@ -57,10 +76,6 @@ class PredictionRequest(BaseModel):
     is_game_center: bool
     age_days: int = Field(ge=0, le=7_000, description="Days since original release")
     update_recency_days: int = Field(ge=0, le=5_000, description="Days since last update")
-
-    @field_serializer("has_iap", "has_support_url", "is_game_center")
-    def serialize_bool(cls, value: bool) -> int:  # noqa: N805
-        return int(value)
 
 
 class PredictionResponse(BaseModel):
