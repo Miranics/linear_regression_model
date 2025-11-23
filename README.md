@@ -1,4 +1,5 @@
 # CalmPulse Linear Regression Project
+##Mission:
 
 Forecast App Store ratings for wellbeing and focus companions so the CalmPulse product team can prioritize UX investments that keep users engaged. This repo houses the notebook, API service, and Flutter mobile client required for the assignment rubric.
 
